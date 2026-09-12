@@ -1,0 +1,6 @@
+/* Shared sanctuary art, personalized in-app by each god's copy and emblem. */
+.temple-banner {
+  background-image: linear-gradient(90deg, rgba(15, 34, 23, .92) 0%, rgba(21, 43, 29, .72) 42%, rgba(21, 43, 29, .1) 78%), url("assets/temple-sanctuary.jpg");
+  background-size: cover;
+  background-position: center;
+}
