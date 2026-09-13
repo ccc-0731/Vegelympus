@@ -6,11 +6,13 @@
   <meta name="theme-color" content="#213b2b">
   <meta name="description" content="奥林匹菜市场 Vegelympus——菜市场众神的水墨神山。">
   <title>奥林匹菜市场 · Vegelympus</title>
+  <link rel="icon" type="image/png" href="assets/favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;600;700;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="temple.css">
+  <link rel="stylesheet" href="v2.css">
 </head>
 <body>
   <div class="paper-grain" aria-hidden="true"></div>
@@ -29,6 +31,7 @@
       <button class="seed-purse" id="seedPurse" aria-label="打开菜种袋">
         <span>🥬</span><span><small>菜种</small><b id="seedCount">0</b></span>
       </button>
+      <div class="merit-pill" title="于神功德"><span>功德</span><b id="meritCount">0</b><small>/ 888</small></div>
       <button class="profile-btn" id="profileBtn" aria-label="山门名帖"><span id="profileAvatar">游</span></button>
     </div>
   </header>
@@ -36,15 +39,22 @@
   <main>
     <section class="view map-view active" id="mapView" data-view="map">
       <div class="map-stage">
-        <img src="assets/vegelympus-mountain.jpg" alt="云雾间的奥林匹菜山，山脚是菜地，山腰是市场，山巅坐落神庙" class="mountain-art">
+        <img src="assets/vegelympus-minimal.jpg" alt="极简水墨奥林匹菜山，十三座神庙散落云间" class="mountain-art">
         <div class="map-vignette"></div>
         <div class="hero-copy">
-          <p class="eyebrow">菜市场众神居所</p>
+          <p class="eyebrow">中山北一路295号菜市场神迹</p>
           <h1>奥林匹<br><em>菜市场</em></h1>
-          <p>沿着菜香登山。种菜、交易、烧香，<br>偶尔被神明认真地胡说八道。</p>
+          <p>你来做什么？<br>究竟是内卷，狗叫，还是卖菜？？？</p>
           <button class="scroll-cta" data-route="farm">从山脚开始 <span>↘</span></button>
         </div>
         <div id="templeHotspots" class="hotspots"></div>
+        <aside class="king-wheel-card" id="kingWheelCard">
+          <div class="wheel-header"><p class="eyebrow">295号菜市场民意调查</p><button id="wheelMode">切换：狗叫大王</button></div>
+          <h3 id="wheelQuestion">谁是卖菜大王？</h3>
+          <div class="wheel-stage"><div class="wheel-pointer">▼</div><div class="king-wheel" id="kingWheel"><span>菜</span></div></div>
+          <button class="wheel-spin" id="spinWheel">开 转</button>
+          <p id="wheelResult">十四位候选神</p>
+        </aside>
         <button class="location-pin farm-pin" data-route="farm"><span>🌱</span><b>山脚菜地</b><small>播下今日的菜运</small></button>
         <button class="location-pin market-pin" data-route="market"><span>🏮</span><b>半山菜市</b><small>以菜易菜，各取所需</small></button>
         <div class="map-legend"><span><i></i> 可拜访神庙</span><span>金光指引 · 悬停查看</span></div>
@@ -53,7 +63,7 @@
 
     <section class="view inner-view" id="farmView" data-view="farm">
       <div class="section-heading">
-        <div><p class="eyebrow">山脚 · 海拔 88 菜尺</p><h2>众生菜地</h2><p>每一棵菜都要认真长大 30 秒。一次最多照看十棵。</p></div>
+        <div><p class="eyebrow">山脚 · 海拔 67 菜尺</p><h2>众生菜地</h2><p>每一棵菜都要认真长大 30 秒。一次最多照看十棵。</p></div>
         <div class="heading-stamp">今日<br><b>宜种菜</b></div>
       </div>
       <div class="farm-layout">
@@ -88,6 +98,7 @@
       <div class="codex-grid">
         <article class="panel"><div class="panel-title"><span>菜之图鉴</span><small id="codexProgress"></small></div><div id="collectionGrid" class="collection-grid"></div></article>
         <article class="panel"><div class="panel-title"><span>众神显灵记录</span><button class="text-btn" id="clearHistory">清空</button></div><div id="historyList" class="history-list"></div></article>
+        <article class="panel meme-panel"><div class="panel-title"><span>收集到的表情包</span><small id="memeProgress"></small></div><div id="memeCollection" class="meme-collection"></div></article>
       </div>
     </section>
   </main>
@@ -97,8 +108,8 @@
   <dialog id="welcomeDialog" class="welcome-dialog">
     <button class="dialog-x" data-close-dialog aria-label="关闭">×</button>
     <div class="guide-aura"></div>
-    <img src="assets/cabbage-guide.png" alt="白菜导游" class="guide-mascot">
-    <div class="guide-copy"><p class="eyebrow">山门导览 · 第一次来？</p><h2>欢迎来到奥林匹菜市场。</h2><p>这是一个神圣的地方。<br>我是您的导游，<strong id="guideName">小白菜</strong>。</p><button class="primary-btn" data-close-dialog>好，进山看看 <span>→</span></button><label><input type="checkbox" id="skipWelcome"> 七日内不再迎接（导游会想你）</label></div>
+    <img src="assets/hens/hen-1.png" alt="水墨老母鸡导游" class="guide-mascot" id="guideMascot">
+    <div class="guide-copy"><p class="eyebrow">老母鸡1号</p><h2>欢迎来到奥林匹菜市场。</h2><p>这是一个神圣的地方。<br>今日由<strong id="guideName">老母鸡1号</strong>负责迎接。</p><button class="primary-btn" data-close-dialog>好，进山看看 <span>→</span></button><label><input type="checkbox" id="skipWelcome"> 七日内不再迎接（老母鸡可能会变鸭）</label></div>
   </dialog>
 
   <dialog id="profileDialog" class="small-dialog">
@@ -109,6 +120,7 @@
   </dialog>
 
   <dialog id="tradeDialog" class="small-dialog"><button class="dialog-x" data-close-dialog aria-label="关闭">×</button><div id="tradeContent"></div></dialog>
+  <dialog id="eventDialog" class="event-dialog"><button class="dialog-x" data-close-dialog aria-label="关闭">×</button><div id="eventContent"></div></dialog>
   <footer><span>VEGELYMPUS 奥林匹菜市场 · V1 2026.9.12 by ccc </span><span>本山一切神迹均为整活，仅供娱乐</span></footer>
   <script src="app.js"></script>
 </body>
